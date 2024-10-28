@@ -11,6 +11,15 @@ class Category extends Model
     /** @use HasFactory<\Database\Factories\CategoryFactory> */
     use HasFactory;
 
+    public function toArray()
+    {
+        return [
+            'id'   => $this->id,
+            'name' => $this->name,
+            'slug' => $this->slug,
+        ];
+    }
+
     public function products(): HasMany
     {
         return $this->hasMany(Product::class);

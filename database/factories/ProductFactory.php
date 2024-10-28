@@ -14,7 +14,7 @@ class ProductFactory extends Factory
             'name'        => $name = fake()->sentence(),
             'description' => fake()->paragraph(),
             'slug'        => str()->slug($name),
-            'price'       => rand(50000, 500000),
+            'price'       => rand(50000, 1500000),
             'stock'       => rand(12, 150),
         ];
     }
