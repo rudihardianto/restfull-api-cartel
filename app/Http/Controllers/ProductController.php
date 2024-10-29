@@ -12,7 +12,11 @@ class ProductController extends Controller
 {
     public function index()
     {
-        return ProductResource::collection(Product::paginate());
+        $products = Product::paginate();
+
+        return view('products.index', [
+            'products' => ProductResource::collection($products),
+        ]);
     }
 
     public function store(ProductRequest $request)
