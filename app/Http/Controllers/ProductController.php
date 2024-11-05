@@ -10,9 +10,15 @@ use App\Http\Resources\ProductSingleResource;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $products = Product::paginate();
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'data' => ProductResource::collection($products),
+            ]);
+        }
 
         return view('products.index', [
             'products' => ProductResource::collection($products),
@@ -42,9 +48,18 @@ class ProductController extends Controller
         return new ProductSingleResource($product);
     }
 
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
-        //
+        $product->update($request->validated());
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'message' => 'data was updated',
+                'product' => new ProductSingleResource($product),
+            ]);
+        }
+
+        return to_route('products.index')->with('success', 'Data was updated');
     }
 
     public function destroy(Product $product)

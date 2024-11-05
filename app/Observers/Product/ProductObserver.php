@@ -13,7 +13,7 @@ class ProductObserver
         if (empty($product->slug)) {
             $product->slug = strtolower(Str::slug($product->name . '-' . time()));
         } else {
-            $product->slug = strtolower(Str::slug($product->slug . '-' . time()));
+            $product->slug = strtolower(Str::slug($product->slug));
         }
     }
 
@@ -24,14 +24,14 @@ class ProductObserver
 
     public function updating(Product $product): void
     {
-        // Update slug jika name berubah (kecuali jika slug diubah manual)
+        // Update slug hanya jika name berubah, dan slug tidak diubah manual
         if ($product->isDirty('name') && !$product->isDirty('slug')) {
             $product->slug = strtolower(Str::slug($product->name . '-' . time()));
         }
 
-        // Jika slug diubah manual
+        // Jika slug diubah manual, tidak perlu menambahkan time()
         if ($product->isDirty('slug')) {
-            $product->slug = strtolower(Str::slug($product->slug . '-' . time()));
+            $product->slug = strtolower(Str::slug($product->slug));
         }
     }
 
