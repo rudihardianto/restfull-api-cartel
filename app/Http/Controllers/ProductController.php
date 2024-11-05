@@ -62,8 +62,16 @@ class ProductController extends Controller
         return to_route('products.index')->with('success', 'Data was updated');
     }
 
-    public function destroy(Product $product)
+    public function destroy(Product $product, Request $request)
     {
-        //
+        $product->delete();
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'message' => 'Product deleted successfully',
+            ]);
+        }
+
+        return to_route('products.index')->with('success', 'Product deleted successfully');
     }
 }
