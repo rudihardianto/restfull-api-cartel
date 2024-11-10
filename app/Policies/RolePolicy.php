@@ -46,7 +46,7 @@ class RolePolicy
         return $user->hasRole('admin');
     }
 
-    public function forceDelete(User $user, Role $role): bool
+    public function forceDelete(User $user): bool
     {
         return $user->hasRole('admin');
     }
