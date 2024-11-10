@@ -2,7 +2,6 @@
 
 namespace App\Policies;
 
-use App\Models\Role;
 use App\Models\User;
 
 class RolePolicy
@@ -21,7 +20,7 @@ class RolePolicy
         return $user->hasRole('admin');
     }
 
-    public function view(User $user, Role $role): bool
+    public function view(User $user): bool
     {
         return $user->hasRole('admin');
     }
