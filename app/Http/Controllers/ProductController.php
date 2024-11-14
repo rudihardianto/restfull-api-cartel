@@ -13,7 +13,14 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        $products = Product::paginate();
+        // Ambil query pencarian dari request
+        $search = $request->query('search');
+
+        // Query produk dengan pencarian (jika ada)
+        $products = Product::when($search, function ($query) use ($search) {
+            $query->where('name', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+        })->paginate();
 
         if ($request->wantsJson()) {
             return response()->json([
@@ -42,7 +49,7 @@ class ProductController extends Controller
 
         return response()->json([
             'message' => 'data was created',
-            'product' => new ProductSingleResource($product),
+            'data'    => new ProductSingleResource($product),
         ]);
     }
 
@@ -60,7 +67,7 @@ class ProductController extends Controller
         if ($request->wantsJson()) {
             return response()->json([
                 'message' => 'data was updated',
-                'product' => new ProductSingleResource($product),
+                'data'    => new ProductSingleResource($product),
             ]);
         }
 
