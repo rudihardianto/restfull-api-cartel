@@ -20,7 +20,7 @@ class ProductController extends Controller
         $products = Product::when($search, function ($query) use ($search) {
             $query->where('name', 'like', "%{$search}%")
                   ->orWhere('description', 'like', "%{$search}%");
-        })->paginate();
+        })->latest()->paginate();
 
         if ($request->wantsJson()) {
             return response()->json([
